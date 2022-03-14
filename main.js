@@ -1,39 +1,41 @@
 const wpmMin = 150;
 const wpmMax = 160;
 
-function timeToTurn(pastWord, currentWord){
-    wpm = Math.floor( Math.random() * (wpmMax - wpmMin + 1) + wpmMin );
-    //Time(second)
-    let time = parseInt( (currentWord - pastWord) )/wpm * 60;
-    console.log("Time(sec) to read:", time);
+function timeToTurn(pastWord, nowWord){
+    if(pastWord == nowWord)
+        return 1;
+    let wpm = Math.floor( Math.random() * (wpmMax - wpmMin + 1) + wpmMin);
+    let time = parseInt( (nowWord - pastWord) / wpm ) * 60; 
     return time;
 }
-
-function getWord(){
-    let word = parseInt(
-        document.querySelectorAll('.activeContents')[1].getAttribute('sectioncount')
-    );
-    console.log("Get word", word);
-    return word;
-}
-
-function reading(pastWord, currentWord){
-
-    let time = timeToTurn(pastWord, currentWord);
+function reading(pastWord, nowWord, totalWord){
+    console.log("Read time(sec):", timeToTurn(pastWord, nowWord));
     setTimeout( () => {
-        if(document.querySelector('button.close-book') != null){
-            document.querySelcetor('button.close-book').click();
+        if( document.querySelector('.close-book').style.display == ''){
+            document.querySelector('.close-book').click();
+            console.log('Done !');
         }
-        else {
+        if(nowWord === totalWord){
             document.querySelector('button.next-slide').click();
-            console.log('Turn to next page');
+            
             setTimeout( () => {
-                pastWord = currentWord;
-                currentWord = getWord();
-                reading(pastWord, currentWord);
-            }, 3000)
+                reading(pastWord, nowWord, totalWord);
+            }, 1000);
         }
-    }, time * 1000 );
+        else{
+            pastWord = document.querySelectorAll('.activeContents')[1].getAttribute('sectioncount');
+            pastWord = parseInt( pastWord );
+            
+            document.querySelector('button.next-slide').click();
+            console.log("Turn to next page");
+
+            nowWord = document.querySelectorAll('.activeContents')[1].getAttribute('sectioncount');
+            nowWord = parseInt( nowWord );
+            setTimeout( () => {
+                reading(pastWord, nowWord, totalWord);
+            }, 2000)
+        }
+    },timeToTurn(pastWord, nowWord) * 1000)
 }
 
 function main(){
@@ -50,18 +52,12 @@ function main(){
 
     }, 3000);
 
-    let pastWord = getWord();
-    if(pastWord === 0){
-        while( getWord() === 0){
-            document.querySelector('button.next-slide').click();
-        }
-    }
-    else{
-        document.querySelector('button.next-slide').click();
-    }
-
-    let currentWord = getWord();
-    reading(pastWord, currentWord);
+    var showTopWord = document.querySelector('#count_signal0').getAttribute('sectioncount');
+    var pastWord = parseInt( showTopWord.split('/')[0] );
+    var nowWord = parseInt( showTopWord.split('/')[0] );
+    const totalWord = parseInt( showTopWord.split('/')[1] );
+    
+    reading(pastWord, nowWord, totalWord);
     console.log('Start !');
 }
 main();
