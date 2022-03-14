@@ -38,6 +38,7 @@ function reading(pastWord, currentWord){
 
 function main(){
 
+    //check whether afk alert pop up
     setInterval( () => {
         if(document.querySelector('button.continue-reading') == null ){
             console.log('close afk alert');
@@ -50,13 +51,13 @@ function main(){
     }, 3000);
 
     let pastWord = getWord();
-    if(getWord() === 0){
-        while( getWord() === 1){
-            document.querySelector('button.continue-reading').click();
+    if(pastWord === 0){
+        while( getWord() === 0){
+            document.querySelector('button.next-slide').click();
         }
     }
     else{
-        document.querySelector('button.continue-reading').click();
+        document.querySelector('button.next-slide').click();
     }
 
     let currentWord = getWord();
