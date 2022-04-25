@@ -26,18 +26,18 @@ const wpmMax = 160;
 function timeToTurn(pastWord, nowWord){
     if(pastWord == nowWord)
         return 1;
-    let wpm = Math.floor( Math.random() * (wpmMax - wpmMin + 1) + wpmMin);
-    let time = parseInt( (nowWord - pastWord) / wpm ) * 60; 
+    let wpm = Math.random() * (wpmMax - wpmMin + 1) + wpmMin;
+    let time = (nowWord - pastWord) / wpm * 60; 
     return time;
 }
 function reading(pastWord, nowWord, totalWord){
-    console.log("Read time(sec):", timeToTurn(pastWord, nowWord));
+    console.log("Read time:", timeToTurn(pastWord, nowWord), "sec");
     setTimeout( () => {
         if( document.querySelector('.close-book').style.display == ''){
             document.querySelector('.close-book').click();
             console.log('Done !');
         }
-        if(nowWord === totalWord){
+        else if(totalWord <= nowWord){
             document.querySelector('button.next-slide').click();
             
             setTimeout( () => {
@@ -45,14 +45,16 @@ function reading(pastWord, nowWord, totalWord){
             }, 1000);
         }
         else{
-            pastWord = document.querySelectorAll('.activeContents')[1].getAttribute('sectioncount');
+            pastWord = nowWord;
             pastWord = parseInt( pastWord );
+            // console.log(pastWord);
             
             document.querySelector('button.next-slide').click();
             console.log("Turn to next page");
 
             nowWord = document.querySelectorAll('.activeContents')[1].getAttribute('sectioncount');
             nowWord = parseInt( nowWord );
+            // console.log(nowWord);
             setTimeout( () => {
                 reading(pastWord, nowWord, totalWord);
             }, 2000)
