@@ -9,13 +9,13 @@ function timeToTurn(pastWord, nowWord){
     return time;
 }
 function reading(pastWord, nowWord, totalWord){
-    console.log("Read time(sec):", timeToTurn(pastWord, nowWord));
+    console.log("Read time:", timeToTurn(pastWord, nowWord), "sec");
     setTimeout( () => {
         if( document.querySelector('.close-book').style.display == ''){
             document.querySelector('.close-book').click();
             console.log('Done !');
         }
-        if(nowWord === totalWord){
+        if(nowWord >= totalWord){
             document.querySelector('button.next-slide').click();
             
             setTimeout( () => {
@@ -23,14 +23,16 @@ function reading(pastWord, nowWord, totalWord){
             }, 1000);
         }
         else{
-            pastWord = document.querySelectorAll('.activeContents')[1].getAttribute('sectioncount');
+            pastWord = nowWord;
             pastWord = parseInt( pastWord );
+            // console.log(pastWord);
             
             document.querySelector('button.next-slide').click();
             console.log("Turn to next page");
 
             nowWord = document.querySelectorAll('.activeContents')[1].getAttribute('sectioncount');
             nowWord = parseInt( nowWord );
+            // console.log(nowWord);
             setTimeout( () => {
                 reading(pastWord, nowWord, totalWord);
             }, 2000)
