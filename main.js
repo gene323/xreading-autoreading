@@ -4,8 +4,8 @@ const wpmMax = 160;
 function timeToTurn(pastWord, nowWord){
     if(pastWord == nowWord)
         return 1;
-    let wpm = Math.floor( Math.random() * (wpmMax - wpmMin + 1) + wpmMin);
-    let time = parseInt( (nowWord - pastWord) / wpm ) * 60; 
+    let wpm = Math.random() * (wpmMax - wpmMin + 1) + wpmMin;
+    let time = (nowWord - pastWord) / wpm * 60; 
     return time;
 }
 function reading(pastWord, nowWord, totalWord){
