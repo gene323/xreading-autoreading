@@ -15,7 +15,7 @@ function reading(pastWord, nowWord, totalWord){
             document.querySelector('.close-book').click();
             console.log('Done !');
         }
-        if(nowWord >= totalWord){
+        else if(totalWord <= nowWord){
             document.querySelector('button.next-slide').click();
             
             setTimeout( () => {
@@ -25,14 +25,15 @@ function reading(pastWord, nowWord, totalWord){
         else{
             pastWord = nowWord;
             pastWord = parseInt( pastWord );
-            // console.log(pastWord);
             
             document.querySelector('button.next-slide').click();
             console.log("Turn to next page");
 
             nowWord = document.querySelectorAll('.activeContents')[1].getAttribute('sectioncount');
             nowWord = parseInt( nowWord );
-            // console.log(nowWord);
+
+            console.log("previous word:", pastWord);
+            console.log("current word:", nowWord);
             setTimeout( () => {
                 reading(pastWord, nowWord, totalWord);
             }, 2000)
