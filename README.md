@@ -3,6 +3,9 @@
 ## step 1
 
 You just need to customize **wpmMin** and **wpmMax**
+
+> :warning: : **WPM may not be precise enough. It is a little fast**
+
 ```js
 const wpmMin = 150;
 const wpmMax = 160;
